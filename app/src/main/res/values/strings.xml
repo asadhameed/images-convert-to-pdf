@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">PDF converter</string>
+    <string name="fragment_container_id">fragment_container</string>
+</resources>
