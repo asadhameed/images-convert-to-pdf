@@ -1,8 +1,11 @@
 package com.github.nene.imagesconverttopdf;
 
 import android.Manifest;
+import android.app.Activity;
+import android.content.ClipData;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -16,7 +19,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 
 public class ApplicationMainFragment extends Fragment implements View.OnClickListener {
-    private static final String APPLICATION_TAG = ApplicationMainFragment.class.toString();
+    private static final String APPLICATION_TAG = "ApplicationMainFragment";
     private Button open_file_location_btn;
     private final int REQUEST_EXTERNAL_STORAGE = 100;
 
@@ -37,13 +40,13 @@ public class ApplicationMainFragment extends Fragment implements View.OnClickLis
 
     @Override
     public void onClick(View view) {
-        Log.e(APPLICATION_TAG, "Click on button ");
+        Log.d(APPLICATION_TAG, "Click on button event generated");
         getReadPermissionGranted();
     }
 
     private void getReadPermissionGranted() {
         if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-            Log.e(APPLICATION_TAG, "getReadPermissionGranted() take permssion ");
+            Log.d(APPLICATION_TAG, "getReadPermissionGranted() take permission from user ");
             requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, REQUEST_EXTERNAL_STORAGE);
         } else
             galleryOfFiles();
@@ -53,7 +56,7 @@ public class ApplicationMainFragment extends Fragment implements View.OnClickLis
     private void galleryOfFiles() {
         Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
         intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
-        intent.setType("images/*");
+        intent.setType("image/*");
         startActivityForResult(intent, REQUEST_EXTERNAL_STORAGE);
     }
 
@@ -63,9 +66,28 @@ public class ApplicationMainFragment extends Fragment implements View.OnClickLis
         if (requestCode == REQUEST_EXTERNAL_STORAGE) {
             if (permissions[0].equals(Manifest.permission.READ_EXTERNAL_STORAGE)
                     && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                Log.e(APPLICATION_TAG, "onRequestPermissionsResult and now going to call gallery ");
+                Log.d(APPLICATION_TAG, "onRequestPermissionsResult and now going to call gallery ");
 
                 galleryOfFiles();
+            }
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode != Activity.RESULT_OK)
+            return;
+        if (requestCode == REQUEST_EXTERNAL_STORAGE) {
+            ClipData clipData = data.getClipData();
+            if (clipData != null) {
+                for (int i = 0, n = clipData.getItemCount(); i < n; i++) {
+                    Uri fileUri = clipData.getItemAt(i).getUri();
+                    Log.d(APPLICATION_TAG, fileUri.toString());
+                }
+
+            } else {
+                Uri fileUri = data.getData();
+                Log.d(APPLICATION_TAG, fileUri.toString());
             }
         }
     }
