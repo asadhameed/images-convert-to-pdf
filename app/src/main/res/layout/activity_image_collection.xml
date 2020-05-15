@@ -6,6 +6,11 @@
         android:id="@+id/gridView_image_collection"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:gravity="center" />
+        android:gravity="center"
+        android:columnWidth="110dp"
+        android:verticalSpacing="10dp"
+        android:horizontalSpacing="10dp"
+        android:stretchMode="columnWidth"
+        android:numColumns="auto_fit"/>
 
 </LinearLayout>
