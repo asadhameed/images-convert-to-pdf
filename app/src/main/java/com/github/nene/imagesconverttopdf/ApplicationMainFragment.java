@@ -2,10 +2,8 @@ package com.github.nene.imagesconverttopdf;
 
 import android.Manifest;
 import android.app.Activity;
-import android.content.ClipData;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -17,6 +15,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
+
+import com.github.nene.imagesconverttopdf.collection.ImageCollection;
 
 public class ApplicationMainFragment extends Fragment implements View.OnClickListener {
     private static final String APPLICATION_TAG = "ApplicationMainFragment";
@@ -74,21 +74,13 @@ public class ApplicationMainFragment extends Fragment implements View.OnClickLis
     }
 
     @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+    public void onActivityResult(int requestCode, int resultCode, Intent intent) {
         if (resultCode != Activity.RESULT_OK)
             return;
         if (requestCode == REQUEST_EXTERNAL_STORAGE) {
-            ClipData clipData = data.getClipData();
-            if (clipData != null) {
-                for (int i = 0, n = clipData.getItemCount(); i < n; i++) {
-                    Uri fileUri = clipData.getItemAt(i).getUri();
-                    Log.d(APPLICATION_TAG, fileUri.toString());
-                }
-
-            } else {
-                Uri fileUri = data.getData();
-                Log.d(APPLICATION_TAG, fileUri.toString());
-            }
+            intent.setClass(getActivity(), ImageCollection.class);
+            startActivity(intent);
         }
     }
+
 }
