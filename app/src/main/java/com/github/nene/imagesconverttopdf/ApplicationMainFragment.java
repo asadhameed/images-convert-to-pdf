@@ -33,7 +33,7 @@ public class ApplicationMainFragment extends Fragment implements View.OnClickLis
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
         View v = inflater.inflate(R.layout.activity_main_application, container, false);
-        open_file_location_btn = v.findViewById(R.id.open_file_location_btn);
+        open_file_location_btn = v.findViewById(R.id.btnFileLocation);
         open_file_location_btn.setOnClickListener(this);
         return v;
     }
