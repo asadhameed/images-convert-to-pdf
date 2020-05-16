@@ -59,9 +59,7 @@ public class ImageAdapter extends BaseAdapter {
             for (int i = 0, n = clipData.getItemCount(); i < n; i++) {
                 Uri fileUri = clipData.getItemAt(i).getUri();
                 try {
-                    InputStream inputStream = mContext.getContentResolver().openInputStream(fileUri);
-                    Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
-                    bitmaps.add(bitmap);
+                    bitmaps.add(convertUriToBitmap(fileUri));
                 } catch (FileNotFoundException e) {
                     Log.e(IMAGE_ADAPTER, e.getStackTrace().toString());
                 }
@@ -69,14 +67,24 @@ public class ImageAdapter extends BaseAdapter {
         } else {
             Uri fileUri = intent.getData();
             try {
-                InputStream inputStream = mContext.getContentResolver().openInputStream(fileUri);
-                Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
-
-                bitmaps.add(bitmap);
+                bitmaps.add(convertUriToBitmap(fileUri));
             } catch (
                     FileNotFoundException e) {
                 Log.e(IMAGE_ADAPTER, e.getStackTrace().toString());
             }
+        }
+    }
+
+    private Bitmap convertUriToBitmap(Uri filePath) throws FileNotFoundException {
+        Bitmap bitmap;
+        try {
+            InputStream stream = mContext.getContentResolver().openInputStream(filePath);
+            bitmap = BitmapFactory.decodeStream(stream);
+            return bitmap;
+        } catch (FileNotFoundException exp) {
+
+            throw exp;
+
         }
     }
 }
