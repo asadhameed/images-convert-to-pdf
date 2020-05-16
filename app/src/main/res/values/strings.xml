@@ -1,5 +1,7 @@
 <resources>
     <string name="app_name">PDF converter</string>
     <string name="fragment_container_id">fragment_container</string>
-    <string name="file_button_test">Select Files</string>
+    <string name="file_btn">Select Files</string>
+    <string name="ok_btn">Change to PDF</string>
+    <string name="cancel_btn">Cancel</string>
 </resources>
