@@ -15,9 +15,10 @@ import com.github.nene.imagesconverttopdf.ApplicationMainActivity;
 import com.github.nene.imagesconverttopdf.R;
 import com.github.nene.imagesconverttopdf.adapter.ImageAdapter;
 
-public class ImageCollectionFragment extends Fragment {
+public class ImageCollectionFragment extends Fragment implements View.OnClickListener  {
     private GridView gridView_image_collection;
     private Button btnCancel;
+    private Button btnOk;
 
     @NonNull
     @Override
@@ -26,19 +27,32 @@ public class ImageCollectionFragment extends Fragment {
         View view = inflater.inflate(R.layout.activity_image_collection, null);
         Intent intent = getActivity().getIntent();
         setUpWidget(view);
+        btnListener();
         gridView_image_collection.setAdapter(new ImageAdapter(getContext(), intent));
-        // The cancel click listener implements
-        btnCancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(getContext(), ApplicationMainActivity.class));
-            }
-        });
         return view;
+    }
+
+    private void btnListener(){
+        btnOk.setOnClickListener(this);
+        btnCancel.setOnClickListener(this);
     }
 
     private void setUpWidget(View view) {
         gridView_image_collection = view.findViewById(R.id.gridView_image_collection);
         btnCancel = view.findViewById(R.id.btnCancel);
+        btnOk=view.findViewById(R.id.btnOk);
+    }
+
+    @Override
+    public  void onClick(View view){
+        switch (view.getId()){
+            case R.id.btnCancel:
+                startActivity(new Intent(getContext(), ApplicationMainActivity.class));
+                break;
+            case R.id.btnOk:
+
+                break;
+            default:
+        }
     }
 }
